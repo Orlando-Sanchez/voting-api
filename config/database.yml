@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: postgres
+  password: p4zzw0rd
+  pool: 5
+
+development:
+  <<: *default
+  database: votingapp_development
+
+
+test:
+  <<: *default
+  database: votingapp_test
