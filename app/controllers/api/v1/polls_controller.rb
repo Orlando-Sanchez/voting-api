@@ -8,9 +8,21 @@ module Api
             end
 
             def create
+                poll = Poll.new(poll_params)
+                if poll.save
+                    render json: poll, status: :created
+                else
+                    render json: poll.errors, status: :unprocessable_entity 
+                end
             end
 
             def destroy
+            end
+
+            private
+
+            def poll_params
+                params.require(:poll).permit(:subject)
             end
         end
     end
