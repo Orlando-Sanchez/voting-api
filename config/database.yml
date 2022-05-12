@@ -1,17 +1,17 @@
 development:
   adapter: postgresql
   encoding: unicode
-  host: db
-  database: voting_app_development
-  pool: 5
-  username: voting_app
-  password: voting_app
+  host: "<%= ENV.fetch("POSTGRES_HOST") %>"
+  database: "<%= ENV.fetch("POSTGRES_DB_DEV") %>"
+  pool: "<%= ENV.fetch("RAILS_MAX_THREADS") %>"
+  username: "<%= ENV.fetch("POSTGRES_USER") %>"
+  password: "<%= ENV.fetch("POSTGRES_PASSWORD") %>"
 
 test:
   adapter: postgresql
   encoding: unicode
-  host: db
-  database: voting_app_test
-  pool: 5
-  username: voting_app
-  password: voting_app
+  host: "<%= ENV.fetch("POSTGRES_HOST") %>"
+  database: "<%= ENV.fetch("POSTGRES_DB_TEST") %>"
+  pool: "<%= ENV.fetch("RAILS_MAX_THREADS") %>"
+  username: "<%= ENV.fetch("POSTGRES_USER") %>"
+  password: "<%= ENV.fetch("POSTGRES_PASSWORD") %>"

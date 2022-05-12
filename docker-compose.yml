@@ -4,14 +4,15 @@ services:
     image: postgres:14
     volumes:
       - db_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: voting_app
-      POSTGRES_PASSWORD: voting_app
+    env_file:
+      - ".env"
   api:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/voting-app-backend
+    env_file:
+      - ".env"
     ports:
       - "3000:3000"
     depends_on:
