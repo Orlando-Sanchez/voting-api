@@ -1,16 +1,17 @@
-default: &default
+development:
   adapter: postgresql
   encoding: unicode
   host: db
-  username: postgres
-  password: p4zzw0rd
+  database: voting_app_development
   pool: 5
-
-development:
-  <<: *default
-  database: votingapp_development
-
+  username: voting_app
+  password: voting_app
 
 test:
-  <<: *default
-  database: votingapp_test
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  database: voting_app_test
+  pool: 5
+  username: voting_app
+  password: voting_app

@@ -5,7 +5,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: p4zzw0rd
+      POSTGRES_USER: voting_app
+      POSTGRES_PASSWORD: voting_app
   api:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
