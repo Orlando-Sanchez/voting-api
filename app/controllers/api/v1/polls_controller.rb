@@ -11,6 +11,9 @@ module Api
             end
 
             def show
+                poll = Poll.find(params[:id])
+
+                render json: PollRepresenter.new(poll).as_json
             end
 
             def create
@@ -23,14 +26,17 @@ module Api
             end
 
             def destroy
+                Poll.find(params[:id]).destroy!
+
+                head :no_content
             end
 
             private
 
             def limit
                 [
-                  params.fetch(:limit, MAX_PAGINATION_LIMIT).to_i, 
-                  MAX_PAGINATION_LIMIT
+                    params.fetch(:limit, MAX_PAGINATION_LIMIT).to_i, 
+                    MAX_PAGINATION_LIMIT
                 ].min
             end
 

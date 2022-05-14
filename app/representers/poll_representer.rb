@@ -6,7 +6,7 @@ class PollRepresenter
     def as_json
         {
             id: poll.id,
-            subject: poll.subject,
+            subject: poll.subject
         }
     end
 
