@@ -18,6 +18,7 @@ module Api
 
             def create
                 poll = Poll.new(poll_params)
+
                 if poll.save
                     render json: PollRepresenter.new(poll).as_json, status: :created
                 else
@@ -41,7 +42,10 @@ module Api
             end
 
             def poll_params
-                params.require(:poll).permit(:subject)
+                params.require(:poll).permit(
+                    :subject,
+                    poll_options_attributes: [ :title ]      
+                )
             end
         end
     end

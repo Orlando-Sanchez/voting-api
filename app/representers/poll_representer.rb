@@ -6,8 +6,13 @@ class PollRepresenter
     def as_json
         {
             id: poll.id,
-            subject: poll.subject
+            subject: poll.subject,
+            options: poll_options_titles
         }
+    end
+
+    def poll_options_titles
+        poll.poll_options.map(&:title)
     end
 
     private

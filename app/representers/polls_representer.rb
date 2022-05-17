@@ -7,7 +7,7 @@ class PollsRepresenter
         polls.map do |poll|
             {
                 id: poll.id,
-                subject: poll.subject,
+                subject: poll.subject
             }
         end
     end
