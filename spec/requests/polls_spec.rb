@@ -3,8 +3,8 @@ require 'rails_helper'
 describe 'Polls API', type: :request do
     describe 'GET /polls' do
         before do
-            FactoryBot.create(:poll, subject: 'First poll')
-            FactoryBot.create(:poll, subject: 'Second poll')
+            FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }])
+            FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }])
         end
 
         it 'returns all polls' do   
@@ -58,7 +58,7 @@ describe 'Polls API', type: :request do
     end
 
     describe 'GET /polls/:id' do
-        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll') }
+        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
         
         it 'returns a poll' do
             get "/api/v1/polls/#{poll.id}"
@@ -67,7 +67,8 @@ describe 'Polls API', type: :request do
             expect(response_body).to eq(                
                 {
                     'id'=> Poll.first.id,
-                    'subject'=> Poll.first.subject                    
+                    'subject'=> Poll.first.subject,
+                    'options'=> Poll.first.poll_options.map(&:title)              
                 }
             )
         end
@@ -77,22 +78,24 @@ describe 'Polls API', type: :request do
         it 'create a new poll' do
             expect {
                 post '/api/v1/polls', params: {
-                    poll: {subject: 'The first poll?'}
+                    poll: {subject: 'The first poll?', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]}
                 }
             }.to change { Poll.count }.from(0).to(1)
 
             expect(response).to have_http_status(:created)
+            expect(PollOption.count).to eq(2)
             expect(response_body).to eq(
                 {
                     'id'=> Poll.first.id,
-                    'subject'=> Poll.first.subject
+                    'subject'=> Poll.first.subject,
+                    'options'=> Poll.first.poll_options.map(&:title) 
                 }
             )
         end
     end
 
     describe 'DELETE /polls/:id' do
-        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll') }
+        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
     
         it 'deletes a poll' do
             expect {
@@ -100,6 +103,7 @@ describe 'Polls API', type: :request do
             }.to change { Poll.count }.by(-1)
 
             expect(response).to have_http_status(:no_content)
+            expect(PollOption.count).to eq(0)
         end
     end
 end
