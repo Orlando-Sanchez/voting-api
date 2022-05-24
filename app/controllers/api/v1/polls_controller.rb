@@ -3,6 +3,8 @@ module Api
         class PollsController < ApplicationController
 
             MAX_PAGINATION_LIMIT = 100
+
+            before_action :authenticate_user!
             
             def index
                 polls = Poll.limit(limit).offset(params[:offset])
