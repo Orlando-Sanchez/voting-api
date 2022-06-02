@@ -10,7 +10,7 @@ describe 'Sessions API', type: :request do
                 user: {email: first_user.email, password: first_user.password}
             }
 
-            expect(response.headers["Authorization"]).to include "Bearer"
+            expect(response.headers["Authorization"]).to include "Bearer "
             expect(response).to have_http_status(:ok)
             expect(response_body).to eq(
                 {

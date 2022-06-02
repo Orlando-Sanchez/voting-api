@@ -96,13 +96,13 @@ describe 'Polls API', type: :request do
     describe 'POST /polls' do 
         it 'creates a new poll' do
             user = first_user
-            headers = { 'Accept' => 'application/json' }
+            headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
 
             expect {
                 post '/api/v1/polls', params: {
                     poll: {subject: 'The first poll?', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]}
-                }, headers: auth_headers
+                }.to_json, headers: auth_headers
             }.to change { Poll.count }.from(0).to(1)
 
             expect(response).to have_http_status(:created)
