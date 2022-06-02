@@ -23,7 +23,7 @@ describe 'Sessions API', type: :request do
     describe 'DELETE /users/logout' do
         it 'deletes a session' do
             user = first_user
-            headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
+            headers = { 'Accept' => 'application/json' }
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
 
             delete '/api/v1/users/logout', headers: auth_headers

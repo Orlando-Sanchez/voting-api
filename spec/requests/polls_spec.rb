@@ -1,14 +1,21 @@
 require 'rails_helper'
+require 'devise/jwt/test_helpers'
 
 describe 'Polls API', type: :request do
+    let!(:first_user) { FactoryBot.create(:user, email: 'first@user.com', password: 'firstuser') }
+
     describe 'GET /polls' do
-        before do
+        before do            
             FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }])
             FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }])
         end
 
-        it 'returns all polls' do   
-            get '/api/v1/polls'
+        it 'returns all polls' do
+            user = first_user
+            headers = { 'Accept' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
+            get '/api/v1/polls', headers: auth_headers
       
             expect(response).to have_http_status(:success)
             expect(response_body.size).to eq(2)
@@ -27,7 +34,11 @@ describe 'Polls API', type: :request do
         end
 
         it 'returns a subset of polls based on limit' do
-            get '/api/v1/polls', params: { limit: 1 }
+            user = first_user
+            headers = { 'Accept' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
+            get '/api/v1/polls', params: { limit: 1 }, headers: auth_headers
   
             expect(response).to have_http_status(:success)
             expect(response_body.size).to eq(1)
@@ -42,7 +53,11 @@ describe 'Polls API', type: :request do
         end
   
         it 'returns a subset of polls based on limit and offset' do
-            get '/api/v1/polls', params: { limit: 1, offset: 1 }
+            user = first_user
+            headers = { 'Accept' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
+            get '/api/v1/polls', params: { limit: 1, offset: 1 }, headers: auth_headers
   
             expect(response).to have_http_status(:success)
             expect(response_body.size).to eq(1)
@@ -61,7 +76,11 @@ describe 'Polls API', type: :request do
         let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
         
         it 'returns a poll' do
-            get "/api/v1/polls/#{poll.id}"
+            user = first_user
+            headers = { 'Accept' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+            
+            get "/api/v1/polls/#{poll.id}", headers: auth_headers
 
             expect(response). to have_http_status(:success)
             expect(response_body).to eq(                
@@ -75,11 +94,15 @@ describe 'Polls API', type: :request do
     end
 
     describe 'POST /polls' do 
-        it 'create a new poll' do
+        it 'creates a new poll' do
+            user = first_user
+            headers = { 'Accept' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
             expect {
                 post '/api/v1/polls', params: {
                     poll: {subject: 'The first poll?', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]}
-                }
+                }, headers: auth_headers
             }.to change { Poll.count }.from(0).to(1)
 
             expect(response).to have_http_status(:created)
@@ -98,8 +121,12 @@ describe 'Polls API', type: :request do
         let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
     
         it 'deletes a poll' do
+            user = first_user
+            headers = { 'Accept' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+            
             expect {
-            delete "/api/v1/polls/#{poll.id}" 
+            delete "/api/v1/polls/#{poll.id}", headers: auth_headers
             }.to change { Poll.count }.by(-1)
 
             expect(response).to have_http_status(:no_content)
