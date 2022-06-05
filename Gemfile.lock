@@ -102,8 +102,6 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    fast_jsonapi (1.5)
-      activesupport (>= 4.2)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.10.0)
@@ -198,6 +196,8 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
+    shoulda-matchers (5.1.0)
+      activesupport (>= 5.2.0)
     strscan (3.0.1)
     thor (1.2.1)
     timeout (0.2.0)
@@ -224,12 +224,12 @@ DEPENDENCIES
   devise
   devise-jwt
   factory_bot_rails
-  fast_jsonapi
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.2, >= 7.0.2.4)
   rspec-rails
+  shoulda-matchers (~> 5.1)
   tzinfo-data
 
 RUBY VERSION
