@@ -101,7 +101,7 @@ describe 'Polls API', type: :request do
 
             expect {
                 post '/api/v1/polls', params: {
-                    poll: {subject: 'The first poll?', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]}
+                    poll: {subject: 'The first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]}
                 }.to_json, headers: auth_headers
             }.to change { Poll.count }.from(0).to(1)
 
@@ -113,6 +113,42 @@ describe 'Polls API', type: :request do
                     'subject'=> Poll.first.subject,
                     'options'=> Poll.first.poll_options.map(&:title) 
                 }
+            )
+        end
+
+        it 'returns an error when subject is invalid' do
+            user = first_user
+            headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
+            post '/api/v1/polls', params: {
+                poll: {subject: '', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]}
+            }.to_json, headers: auth_headers
+
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response_body).to eq(
+                "subject"=> [
+                    "can't be blank",
+                    "is too short (minimum is 3 characters)"
+                ]
+            )
+        end
+
+        it 'returns an error when poll options are invalid' do
+            user = first_user
+            headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
+            post '/api/v1/polls', params: {
+                poll: {subject: 'The first poll', poll_options_attributes: [{ title: '' }, { title: 'second' }]}
+            }.to_json, headers: auth_headers
+
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response_body).to eq(
+                "poll_options.title"=> [
+                    "can't be blank",
+                    "is too short (minimum is 1 character)"
+                ]
             )
         end
     end
