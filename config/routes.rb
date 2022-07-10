@@ -12,10 +12,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :polls, only: [:index, :show, :create, :destroy] do
-        resources :votes, only: [:create]
-      end
+        collection do
+          get 'voted' => :user_voted_polls
+        end
 
-      resources :votes, only: [:index, :show]
+        resources :votes, path: 'vote', as: 'vote', only: [:create]
+      end
     end
   end
 end
