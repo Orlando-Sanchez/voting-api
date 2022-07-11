@@ -35,7 +35,7 @@ module Api
       end
 
       def user_voted_polls
-        polls = Poll.joins(:votes).where(votes: { user_id: current_user.id })
+        @polls = Poll.joins(:votes).where(votes: { user_id: current_user.id })
       end
 
       private

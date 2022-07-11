@@ -169,4 +169,35 @@ describe 'Polls API', type: :request do
             expect(PollOption.count).to eq(0)
         end
     end
+
+    describe 'GET /polls/voted' do
+        let!(:first_poll) { FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
+        let!(:second_poll) { FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
+
+        it 'returns the polls voted by the user' do
+            FactoryBot.create(:vote, poll_id: first_poll.id, user_id: first_user.id)
+            FactoryBot.create(:vote, poll_id: second_poll.id, user_id: first_user.id)
+            
+            user = first_user
+            headers = { 'Accept' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
+            get '/api/v1/polls/voted', headers: auth_headers
+
+            expect(response).to have_http_status(:success)
+            expect(response_body.size).to eq(2)
+            expect(response_body).to eq(
+                [
+                    {
+                        'id'=> Poll.first.id,
+                        'subject'=> Poll.first.subject
+                    },
+                    {
+                        'id'=> Poll.second.id,
+                        'subject'=> Poll.second.subject
+                    }
+                ]
+            )
+        end
+    end
 end
