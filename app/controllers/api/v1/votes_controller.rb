@@ -6,12 +6,12 @@ module Api
       before_action :current_user_voted?
 
       def create
-        vote = current_user.votes.build(
+        @vote = current_user.votes.build(
           :poll_id => @poll.id
         )
 
-        if vote.save
-          render json: vote, status: :created
+        if @vote.save
+          @vote
         else
           render json: vote.errors, status: :unprocessable_entity 
         end
