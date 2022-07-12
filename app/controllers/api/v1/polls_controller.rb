@@ -19,10 +19,12 @@ module Api
       end
 
       def create
-        poll = Poll.new(poll_params)
+        @poll = current_user.polls.build(
+          poll_params
+        )
 
-        if poll.save
-          render json: PollRepresenter.new(poll).as_json, status: :created
+        if @poll.save
+          @poll
         else
           render json: poll.errors, status: :unprocessable_entity 
         end
