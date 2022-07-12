@@ -4,7 +4,7 @@ require 'devise/jwt/test_helpers'
 describe 'Votes API', type: :request do
     describe 'POST /polls/:poll_id/vote' do
         let!(:first_user) { FactoryBot.create(:user, email: 'first@user.com', password: 'firstuser') }
-        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
+        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
         
         it 'creates a new vote and a new ballot' do
             user = first_user
@@ -13,7 +13,7 @@ describe 'Votes API', type: :request do
 
             expect {
                 post "/api/v1/polls/#{poll.id}/vote", params: {
-                    vote: {poll_id: poll.id, user_id: first_user.id},
+                    vote: {poll_id: poll.id, user_id: user.id},
                     poll_option_id: poll.poll_options.first.id
                 }.to_json, headers: auth_headers
             }.to change { Vote.count }.from(0).to(1)

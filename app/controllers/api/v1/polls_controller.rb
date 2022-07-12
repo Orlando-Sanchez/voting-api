@@ -26,7 +26,7 @@ module Api
         if @poll.save
           @poll
         else
-          render json: poll.errors, status: :unprocessable_entity 
+          render json: @poll.errors, status: :unprocessable_entity 
         end
       end
 

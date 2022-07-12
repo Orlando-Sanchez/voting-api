@@ -6,8 +6,8 @@ describe 'Polls API', type: :request do
 
     describe 'GET /polls' do
         before do            
-            FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }])
-            FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }])
+            FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id)
+            FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id)
         end
 
         it 'returns all polls' do
@@ -73,7 +73,7 @@ describe 'Polls API', type: :request do
     end
 
     describe 'GET /polls/:id' do
-        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
+        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
         
         it 'returns a poll' do
             user = first_user
@@ -101,17 +101,22 @@ describe 'Polls API', type: :request do
 
             expect {
                 post '/api/v1/polls', params: {
-                    poll: {subject: 'The first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]}
+                    poll: {subject: 'The first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: user.id},
+
                 }.to_json, headers: auth_headers
             }.to change { Poll.count }.from(0).to(1)
 
-            expect(response).to have_http_status(:created)
+            expect(response).to have_http_status(:ok)
             expect(PollOption.count).to eq(2)
             expect(response_body).to eq(
                 {
-                    'id'=> Poll.first.id,
-                    'subject'=> Poll.first.subject,
-                    'options'=> Poll.first.poll_options.map(&:title) 
+                    'poll'=> {
+                        'id'=> Poll.first.id,
+                        'subject'=> Poll.first.subject,
+                        'options'=> Poll.first.poll_options.map {
+                            |o| o.slice(:id, :title)
+                        }
+                    }   
                 }
             )
         end
@@ -122,7 +127,7 @@ describe 'Polls API', type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
 
             post '/api/v1/polls', params: {
-                poll: {subject: '', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]}
+                poll: {subject: '', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: user.id}
             }.to_json, headers: auth_headers
 
             expect(response).to have_http_status(:unprocessable_entity)
@@ -140,7 +145,7 @@ describe 'Polls API', type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
 
             post '/api/v1/polls', params: {
-                poll: {subject: 'The first poll', poll_options_attributes: [{ title: '' }, { title: 'second' }]}
+                poll: {subject: 'The first poll', poll_options_attributes: [{ title: '' }, { title: 'second' }], user_id: user.id}
             }.to_json, headers: auth_headers
 
             expect(response).to have_http_status(:unprocessable_entity)
@@ -154,7 +159,7 @@ describe 'Polls API', type: :request do
     end
 
     describe 'DELETE /polls/:id' do
-        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
+        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
     
         it 'deletes a poll' do
             user = first_user
@@ -171,8 +176,8 @@ describe 'Polls API', type: :request do
     end
 
     describe 'GET /polls/voted' do
-        let!(:first_poll) { FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
-        let!(:second_poll) { FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }]) }
+        let!(:first_poll) { FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
+        let!(:second_poll) { FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
 
         it 'returns the polls voted by the user' do
             FactoryBot.create(:vote, poll_id: first_poll.id, user_id: first_user.id)
