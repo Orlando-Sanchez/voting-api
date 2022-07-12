@@ -175,6 +175,34 @@ describe 'Polls API', type: :request do
         end
     end
 
+    describe 'GET /polls/created' do
+        let!(:first_poll) { FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
+        let!(:second_poll) { FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
+
+        it 'returns the polls created by the user' do            
+            user = first_user
+            headers = { 'Accept' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
+            get '/api/v1/polls/created', headers: auth_headers
+
+            expect(response).to have_http_status(:success)
+            expect(response_body.size).to eq(2)
+            expect(response_body).to eq(
+                [
+                    {
+                        'id'=> Poll.first.id,
+                        'subject'=> Poll.first.subject
+                    },
+                    {
+                        'id'=> Poll.second.id,
+                        'subject'=> Poll.second.subject
+                    }
+                ]
+            )
+        end
+    end
+
     describe 'GET /polls/voted' do
         let!(:first_poll) { FactoryBot.create(:poll, subject: 'First poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
         let!(:second_poll) { FactoryBot.create(:poll, subject: 'Second poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }

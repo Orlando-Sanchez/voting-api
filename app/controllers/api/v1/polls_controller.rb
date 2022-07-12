@@ -36,6 +36,10 @@ module Api
         head :no_content
       end
 
+      def user_created_polls
+        @polls = current_user.polls
+      end
+
       def user_voted_polls
         @polls = Poll.joins(:votes).where(votes: { user_id: current_user.id })
       end
