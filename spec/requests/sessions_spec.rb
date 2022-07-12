@@ -10,11 +10,11 @@ describe 'Sessions API', type: :request do
                 user: {email: first_user.email, password: first_user.password}
             }
 
-            expect(response.headers["Authorization"]).to include "Bearer "
+            expect(response.headers['Authorization']).to include 'Bearer '
             expect(response).to have_http_status(:ok)
             expect(response_body).to eq(
                 {
-                    "message"=> "Signed in successfully!"
+                    'message'=> 'Signed in successfully!'
                 }
             )
         end
@@ -31,7 +31,7 @@ describe 'Sessions API', type: :request do
             expect(response).to have_http_status(:ok)
             expect(response_body).to eq(
                 {
-                    "message"=> "Logged out successfully."
+                    'message'=> 'Logged out successfully.'
                 }
             )
         end
@@ -42,7 +42,7 @@ describe 'Sessions API', type: :request do
             expect(response).to have_http_status(:unauthorized)
             expect(response_body).to eq(
                 {
-                    "message"=> "Failed to log out."
+                    'message'=> 'Failed to log out.'
                 }
             )
         end

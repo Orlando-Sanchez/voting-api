@@ -127,9 +127,9 @@ describe 'Polls API', type: :request do
 
             expect(response).to have_http_status(:unprocessable_entity)
             expect(response_body).to eq(
-                "subject"=> [
+                'subject'=> [
                     "can't be blank",
-                    "is too short (minimum is 3 characters)"
+                    'is too short (minimum is 3 characters)'
                 ]
             )
         end
@@ -145,9 +145,9 @@ describe 'Polls API', type: :request do
 
             expect(response).to have_http_status(:unprocessable_entity)
             expect(response_body).to eq(
-                "poll_options.title"=> [
+                'poll_options.title'=> [
                     "can't be blank",
-                    "is too short (minimum is 1 character)"
+                    'is too short (minimum is 1 character)'
                 ]
             )
         end
