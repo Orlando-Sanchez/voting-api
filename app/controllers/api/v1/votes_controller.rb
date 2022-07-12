@@ -6,18 +6,27 @@ module Api
       before_action :current_user_voted?
 
       def create
-        @vote = current_user.votes.build(
-          :poll_id => @poll.id
-        )
+        ballot = Ballot.new(ballot_params)
 
-        if @vote.save
-          @vote
+        if ballot.save          
+          @vote = current_user.votes.build(
+            :poll_id => @poll.id
+          )
+          if @vote.save
+            @vote
+          else
+            render json: vote.errors, status: :unprocessable_entity 
+          end
         else
-          render json: vote.errors, status: :unprocessable_entity 
+          render json: ballot.errors, status: :unprocessable_entity 
         end
       end
 
       private
+
+      def ballot_params
+        params.permit(:poll_option_id)
+      end
     
       def current_user_voted?
         @poll = Poll.find(params[:poll_id])
