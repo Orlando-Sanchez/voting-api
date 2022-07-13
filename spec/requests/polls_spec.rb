@@ -85,9 +85,13 @@ describe 'Polls API', type: :request do
             expect(response). to have_http_status(:success)
             expect(response_body).to eq(                
                 {
-                    'id'=> Poll.first.id,
-                    'subject'=> Poll.first.subject,
-                    'options'=> Poll.first.poll_options.map(&:title)              
+                    'poll'=> {
+                        'id'=> Poll.first.id,
+                        'subject'=> Poll.first.subject,
+                        'options'=> Poll.first.poll_options.map {
+                            |o| o.slice(:id, :title)
+                        }
+                    }          
                 }
             )
         end
@@ -155,23 +159,6 @@ describe 'Polls API', type: :request do
                     'is too short (minimum is 1 character)'
                 ]
             )
-        end
-    end
-
-    describe 'DELETE /polls/:id' do
-        let!(:poll) { FactoryBot.create(:poll, subject: 'first poll', poll_options_attributes: [{ title: 'first' }, { title: 'second' }], user_id: first_user.id) }
-    
-        it 'deletes a poll' do
-            user = first_user
-            headers = { 'Accept' => 'application/json' }
-            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
-            
-            expect {
-            delete "/api/v1/polls/#{poll.id}", headers: auth_headers
-            }.to change { Poll.count }.by(-1)
-
-            expect(response).to have_http_status(:no_content)
-            expect(PollOption.count).to eq(0)
         end
     end
 

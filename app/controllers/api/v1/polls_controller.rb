@@ -7,15 +7,11 @@ module Api
       before_action :authenticate_user!
       
       def index
-        polls = Poll.limit(limit).offset(params[:offset])
-
-        render json: PollsRepresenter.new(polls).as_json
+        @polls = Poll.limit(limit).offset(params[:offset])
       end
 
       def show
-        poll = Poll.find(params[:id])
-
-        render json: PollRepresenter.new(poll).as_json
+        @poll = Poll.find(params[:id])
       end
 
       def create
@@ -28,12 +24,6 @@ module Api
         else
           render json: @poll.errors, status: :unprocessable_entity 
         end
-      end
-
-      def destroy
-        Poll.find(params[:id]).destroy!
-
-        head :no_content
       end
 
       def user_created_polls
