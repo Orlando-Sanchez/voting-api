@@ -4,6 +4,7 @@ module Api
       
       before_action :authenticate_user!
       before_action :current_user_voted?
+      before_action :poll_closed?
 
       def create
         ballot = Ballot.new(ballot_params)
@@ -33,6 +34,14 @@ module Api
 
         if @poll.votes.where(user_id: current_user.id).exists?
           render json: { message: 'User already voted in this poll.' }, status: :unprocessable_entity
+        end
+      end
+
+      def poll_closed?
+        @poll = Poll.find(params[:poll_id])
+
+        if @poll.status_closed?
+          render json: { message: 'This poll has closed.' }, status: :unprocessable_entity
         end
       end
     end
