@@ -4,4 +4,5 @@ docker-compose.yml
 README.md
 .git
 .env.example
+.env
 stacks

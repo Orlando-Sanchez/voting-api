@@ -17,6 +17,25 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - redis
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - api-redis:/var/lib/redis/data
+  sidekiq:
+    build:
+      context: .
+    command: bundle exec sidekiq
+    volumes:
+      - '.:/voting-app'
+    working_dir: /voting-app
+    links:
+      - db
+      - redis
+    env_file:
+      - .env
   # appsmith:
   #   image: index.docker.io/appsmith/appsmith-ce
   #   container_name: appsmith
@@ -37,3 +56,4 @@ services:
   #   restart: unless-stopped
 volumes:
   db_data:
+  api-redis:
