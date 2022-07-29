@@ -23,11 +23,13 @@ describe 'Polls API', type: :request do
                 [
                     {
                         'id'=> Poll.first.id,
-                        'subject'=> Poll.first.subject
+                        'subject'=> Poll.first.subject,
+                        'status'=> Poll.first.status
                     },
                     {
                         'id'=> Poll.second.id,
-                        'subject'=> Poll.second.subject
+                        'subject'=> Poll.second.subject,
+                        'status'=> Poll.first.status
                     }
                 ]
             )
@@ -50,6 +52,7 @@ describe 'Polls API', type: :request do
                     'poll'=> {
                         'id'=> Poll.first.id,
                         'subject'=> Poll.first.subject,
+                        'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
                             |o| o.slice(:id, :title)
                         }
@@ -79,6 +82,7 @@ describe 'Polls API', type: :request do
                     'poll'=> {
                         'id'=> Poll.first.id,
                         'subject'=> Poll.first.subject,
+                        'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
                             |o| o.slice(:id, :title)
                         }
@@ -141,11 +145,13 @@ describe 'Polls API', type: :request do
                 [
                     {
                         'id'=> Poll.first.id,
-                        'subject'=> Poll.first.subject
+                        'subject'=> Poll.first.subject,
+                        'status'=> Poll.first.status
                     },
                     {
                         'id'=> Poll.second.id,
-                        'subject'=> Poll.second.subject
+                        'subject'=> Poll.second.subject,
+                        'status'=> Poll.first.status
                     }
                 ]
             )
@@ -172,11 +178,13 @@ describe 'Polls API', type: :request do
                 [
                     {
                         'id'=> Poll.first.id,
-                        'subject'=> Poll.first.subject
+                        'subject'=> Poll.first.subject,
+                        'status'=> Poll.first.status
                     },
                     {
                         'id'=> Poll.second.id,
-                        'subject'=> Poll.second.subject
+                        'subject'=> Poll.second.subject,
+                        'status'=> Poll.first.status
                     }
                 ]
             )

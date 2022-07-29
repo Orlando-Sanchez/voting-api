@@ -41,7 +41,7 @@ module Api
         @poll = Poll.find(params[:poll_id])
 
         if @poll.status_closed?
-          render json: { message: 'This poll has closed.' }, status: :unprocessable_entity
+          render json: { message: 'This poll is closed.' }, status: :unprocessable_entity
         end
       end
     end

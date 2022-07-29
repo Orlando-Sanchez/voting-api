@@ -31,11 +31,11 @@ services:
     volumes:
       - '.:/voting-app'
     working_dir: /voting-app
-    links:
+    env_file:
+      - ".env"
+    depends_on:
       - db
       - redis
-    env_file:
-      - .env
   # appsmith:
   #   image: index.docker.io/appsmith/appsmith-ce
   #   container_name: appsmith

@@ -71,5 +71,25 @@ describe 'Votes API', type: :request do
                 }
             )           
         end
+
+        it 'returns an error when poll is closed' do
+            poll.status_closed!
+            
+            user = first_user
+            headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
+            auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+
+            post "/api/v1/polls/#{poll.id}/vote", params: {
+                vote: {poll_id: poll.id, user_id: first_user.id},
+                poll_option_id: 1
+            }.to_json, headers: auth_headers
+
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response_body).to eq(
+                {
+                    'message'=> 'This poll is closed.'
+                }
+            )           
+        end
     end
 end
