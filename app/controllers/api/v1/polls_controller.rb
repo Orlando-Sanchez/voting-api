@@ -18,7 +18,7 @@ module Api
         )
 
         if @poll.save
-          ClosePollJob.set(wait: 1.day).perform_later(@poll.id)
+          ClosePollJob.set(wait_until: @poll.created_at + 1.day).perform_later(@poll.id)
           @poll
         else
           render json: @poll.errors, status: :unprocessable_entity 

@@ -6,8 +6,7 @@ development:
   pool: "<%= ENV.fetch("RAILS_MAX_THREADS") %>"
   username: "<%= ENV.fetch("POSTGRES_USER") %>"
   password: "<%= ENV.fetch("POSTGRES_PASSWORD") %>"
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
-
+  
 test:
   adapter: postgresql
   encoding: unicode
@@ -16,4 +15,3 @@ test:
   pool: "<%= ENV.fetch("RAILS_MAX_THREADS") %>"
   username: "<%= ENV.fetch("POSTGRES_USER") %>"
   password: "<%= ENV.fetch("POSTGRES_PASSWORD") %>"
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
