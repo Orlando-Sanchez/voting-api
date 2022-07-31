@@ -36,13 +36,6 @@ module VotingApp
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    config.log_level = :debug
-    config.log_tags  = [:subdomain, :uuid]
-    config.logger    = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-
-    config.cache_store = :redis_store, ENV['CACHE_URL'],
-                         { namespace: 'VotingApp::cache' }
-
     config.active_job.queue_adapter = :sidekiq
   end
 end
