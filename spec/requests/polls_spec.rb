@@ -24,12 +24,18 @@ describe 'Polls API', type: :request do
                     {
                         'id'=> Poll.first.id,
                         'subject'=> Poll.first.subject,
-                        'status'=> Poll.first.status
+                        'status'=> Poll.first.status,
+                        'options'=> Poll.first.poll_options.map {
+                            |o| o.slice(:id, :title, :ballots_count)
+                        }
                     },
                     {
                         'id'=> Poll.second.id,
                         'subject'=> Poll.second.subject,
-                        'status'=> Poll.first.status
+                        'status'=> Poll.second.status,
+                        'options'=> Poll.second.poll_options.map {
+                            |o| o.slice(:id, :title, :ballots_count)
+                        }
                     }
                 ]
             )
@@ -54,7 +60,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.first.subject,
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
-                            |o| o.slice(:id, :title)
+                            |o| o.slice(:id, :title, :ballots_count)
                         }
                     }          
                 }
@@ -84,7 +90,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.first.subject,
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
-                            |o| o.slice(:id, :title)
+                            |o| o.slice(:id, :title, :ballots_count)
                         }
                     }   
                 }
@@ -146,12 +152,18 @@ describe 'Polls API', type: :request do
                     {
                         'id'=> Poll.first.id,
                         'subject'=> Poll.first.subject,
-                        'status'=> Poll.first.status
+                        'status'=> Poll.first.status,
+                        'options'=> Poll.first.poll_options.map {
+                            |o| o.slice(:id, :title, :ballots_count)
+                        }
                     },
                     {
                         'id'=> Poll.second.id,
                         'subject'=> Poll.second.subject,
-                        'status'=> Poll.first.status
+                        'status'=> Poll.second.status,
+                        'options'=> Poll.second.poll_options.map {
+                            |o| o.slice(:id, :title, :ballots_count)
+                        }
                     }
                 ]
             )
@@ -179,12 +191,18 @@ describe 'Polls API', type: :request do
                     {
                         'id'=> Poll.first.id,
                         'subject'=> Poll.first.subject,
-                        'status'=> Poll.first.status
+                        'status'=> Poll.first.status,
+                        'options'=> Poll.first.poll_options.map {
+                            |o| o.slice(:id, :title, :ballots_count)
+                        }
                     },
                     {
                         'id'=> Poll.second.id,
                         'subject'=> Poll.second.subject,
-                        'status'=> Poll.first.status
+                        'status'=> Poll.second.status,
+                        'options'=> Poll.second.poll_options.map {
+                            |o| o.slice(:id, :title, :ballots_count)
+                        }
                     }
                 ]
             )
