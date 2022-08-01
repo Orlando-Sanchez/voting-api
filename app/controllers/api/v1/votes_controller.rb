@@ -1,8 +1,6 @@
 module Api
   module V1
     class VotesController < ApplicationController
-      
-      before_action :authenticate_user!
       before_action :current_user_voted?
       before_action :poll_closed?
 
