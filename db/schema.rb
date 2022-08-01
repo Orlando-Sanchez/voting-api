@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_30_232657) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_01_224345) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,7 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_30_232657) do
 
   create_table "poll_options", force: :cascade do |t|
     t.text "title", null: false
-    t.bigint "poll_id"
+    t.bigint "poll_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "ballots_count"
@@ -54,8 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_30_232657) do
   end
 
   create_table "votes", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "poll_id"
+    t.bigint "user_id", null: false
+    t.bigint "poll_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["poll_id"], name: "index_votes_on_poll_id"
