@@ -5,4 +5,7 @@ README.md
 .git
 .env.example
 .env
-voting-app/tmp
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep

@@ -2,13 +2,17 @@ version: "3.9"
 services:
   db:
     image: postgres:14
+    restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
     env_file:
       - ".env"
   api:
-    build: .
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    restart: always
     volumes:
       - .:/voting-app
     env_file:
@@ -19,14 +23,17 @@ services:
       - db
       - redis
   redis:
-    image: redis
+    image: redis:7.0
     ports:
       - '6379:6379'
+    restart: always
     volumes:
       - api-redis:/var/lib/redis/data
   sidekiq:
     build:
-      context: .
+      context: ./
+      dockerfile: docker/Dockerfile
+    restart: always
     command: bundle exec sidekiq
     volumes:
       - '.:/voting-app'
