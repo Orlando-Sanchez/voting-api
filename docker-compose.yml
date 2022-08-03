@@ -14,7 +14,7 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     restart: always
     volumes:
-      - .:/voting-app
+      - .:/voting-api
     env_file:
       - ".env"
     ports:
@@ -36,8 +36,8 @@ services:
     restart: always
     command: bundle exec sidekiq
     volumes:
-      - '.:/voting-app'
-    working_dir: /voting-app
+      - '.:/voting-api'
+    working_dir: /voting-api
     env_file:
       - ".env"
     depends_on:
