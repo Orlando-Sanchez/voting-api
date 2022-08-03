@@ -5,4 +5,5 @@ json.poll do
     json.options @poll.poll_options.map {
         |o| o.slice(:id, :title, :ballots_count)
     }
+    json.created_at @poll.created_at
 end

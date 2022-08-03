@@ -27,7 +27,8 @@ describe 'Polls API', type: :request do
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
                             |o| o.slice(:id, :title, :ballots_count)
-                        }
+                        },
+                        'created_at'=> response_body[0]["created_at"]
                     },
                     {
                         'id'=> Poll.second.id,
@@ -35,7 +36,8 @@ describe 'Polls API', type: :request do
                         'status'=> Poll.second.status,
                         'options'=> Poll.second.poll_options.map {
                             |o| o.slice(:id, :title, :ballots_count)
-                        }
+                        },
+                        'created_at'=> response_body[1]["created_at"]
                     }
                 ]
             )
@@ -61,7 +63,8 @@ describe 'Polls API', type: :request do
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
                             |o| o.slice(:id, :title, :ballots_count)
-                        }
+                        },
+                        'created_at'=> response_body["poll"]["created_at"]
                     }          
                 }
             )
@@ -91,7 +94,8 @@ describe 'Polls API', type: :request do
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
                             |o| o.slice(:id, :title, :ballots_count)
-                        }
+                        },
+                        'created_at'=> response_body["poll"]["created_at"]
                     }   
                 }
             )
@@ -155,7 +159,8 @@ describe 'Polls API', type: :request do
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
                             |o| o.slice(:id, :title, :ballots_count)
-                        }
+                        },
+                        'created_at'=> response_body[0]["created_at"]
                     },
                     {
                         'id'=> Poll.second.id,
@@ -163,7 +168,8 @@ describe 'Polls API', type: :request do
                         'status'=> Poll.second.status,
                         'options'=> Poll.second.poll_options.map {
                             |o| o.slice(:id, :title, :ballots_count)
-                        }
+                        },
+                        'created_at'=> response_body[1]["created_at"]
                     }
                 ]
             )
@@ -194,7 +200,8 @@ describe 'Polls API', type: :request do
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
                             |o| o.slice(:id, :title, :ballots_count)
-                        }
+                        },
+                        'created_at'=> response_body[0]["created_at"]
                     },
                     {
                         'id'=> Poll.second.id,
@@ -202,7 +209,8 @@ describe 'Polls API', type: :request do
                         'status'=> Poll.second.status,
                         'options'=> Poll.second.poll_options.map {
                             |o| o.slice(:id, :title, :ballots_count)
-                        }
+                        },
+                        'created_at'=> response_body[1]["created_at"]
                     }
                 ]
             )

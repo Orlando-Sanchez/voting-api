@@ -46,7 +46,8 @@ gem 'devise', '~> 4.8.1'
 gem 'devise-jwt', '~> 0.9.0'
 
 group :development, :test do
-  gem 'pry-remote', '~> 0.1.8'
+  # gem 'pry-remote', '~> 0.1.8'
+  gem 'pry-byebug', '~> 3.9.0'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", '~> 1.5.0', platforms: %i[ mri mingw x64_mingw ]
   gem 'rspec-rails', '~> 5.1.2'
