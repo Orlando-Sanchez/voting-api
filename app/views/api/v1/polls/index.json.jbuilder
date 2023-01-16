@@ -3,7 +3,7 @@ json.array! @polls do |poll|
     json.status poll.status
     json.subject poll.subject
     json.options poll.poll_options.map {
-        |o| o.slice(:id, :title, :ballots_count)
+        |o| o.slice(:id, :title)
     }
     json.created_at poll.created_at
 end

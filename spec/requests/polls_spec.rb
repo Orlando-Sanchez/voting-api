@@ -26,7 +26,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.first.subject,
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
-                            |o| o.slice(:id, :title, :ballots_count)
+                            |o| o.slice(:id, :title)
                         },
                         'created_at'=> response_body[0]["created_at"]
                     },
@@ -35,7 +35,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.second.subject,
                         'status'=> Poll.second.status,
                         'options'=> Poll.second.poll_options.map {
-                            |o| o.slice(:id, :title, :ballots_count)
+                            |o| o.slice(:id, :title)
                         },
                         'created_at'=> response_body[1]["created_at"]
                     }
@@ -62,7 +62,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.first.subject,
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
-                            |o| o.slice(:id, :title, :ballots_count)
+                            |o| o.slice(:id, :title)
                         },
                         'created_at'=> response_body["poll"]["created_at"]
                     }          
@@ -93,7 +93,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.first.subject,
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
-                            |o| o.slice(:id, :title, :ballots_count)
+                            |o| o.slice(:id, :title)
                         },
                         'created_at'=> response_body["poll"]["created_at"]
                     }   
@@ -158,7 +158,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.first.subject,
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
-                            |o| o.slice(:id, :title, :ballots_count)
+                            |o| o.slice(:id, :title)
                         },
                         'created_at'=> response_body[0]["created_at"]
                     },
@@ -167,7 +167,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.second.subject,
                         'status'=> Poll.second.status,
                         'options'=> Poll.second.poll_options.map {
-                            |o| o.slice(:id, :title, :ballots_count)
+                            |o| o.slice(:id, :title)
                         },
                         'created_at'=> response_body[1]["created_at"]
                     }
@@ -199,7 +199,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.first.subject,
                         'status'=> Poll.first.status,
                         'options'=> Poll.first.poll_options.map {
-                            |o| o.slice(:id, :title, :ballots_count)
+                            |o| o.slice(:id, :title)
                         },
                         'created_at'=> response_body[0]["created_at"]
                     },
@@ -208,7 +208,7 @@ describe 'Polls API', type: :request do
                         'subject'=> Poll.second.subject,
                         'status'=> Poll.second.status,
                         'options'=> Poll.second.poll_options.map {
-                            |o| o.slice(:id, :title, :ballots_count)
+                            |o| o.slice(:id, :title)
                         },
                         'created_at'=> response_body[1]["created_at"]
                     }

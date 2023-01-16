@@ -19,7 +19,6 @@ describe 'Votes API', type: :request do
             }.to change { Vote.count }.from(0).to(1)
 
             expect(response).to have_http_status(:ok)
-            expect(Ballot.count).to eq(1)
             expect(response_body).to eq(
                 {
                   'vote'=> {
