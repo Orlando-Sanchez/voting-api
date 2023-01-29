@@ -3,6 +3,8 @@ services:
   db:
     image: postgres:14
     restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
     env_file:
       - ".env"
   api:
@@ -25,6 +27,8 @@ services:
     ports:
       - '6379:6379'
     restart: always
+    volumes:
+      - api-redis:/var/lib/redis/data
   sidekiq:
     build:
       context: ./
@@ -43,6 +47,8 @@ services:
     build:
       context: ./
       dockerfile: docker/Dockerfile.nginx
-    restart: always    
     ports:
       - '8020:8020'
+volumes:
+  db_data:
+  api-redis:

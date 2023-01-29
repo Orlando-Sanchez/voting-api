@@ -1,5 +1,7 @@
 Dockerfile
+Dockerfile.nginx
 docker-compose.yml
+docker-compose.dev.yml
 .gitignore
 README.md
 .git
